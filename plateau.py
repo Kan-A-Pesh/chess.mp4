@@ -23,7 +23,7 @@ class Plateau:
         -2,-3,-4,-6,-5,-4,-3,-2
     ]
 
-    def move(self, oldPos: int, newPos: int) -> None:
+    def move(self, oldPos: int, newPos: int):
         """Déplace un pion d'une case (oldPos) a une autre case vide (newPos)
 
         Précondition: oldPos est un entier
