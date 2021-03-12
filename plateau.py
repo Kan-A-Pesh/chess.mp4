@@ -37,3 +37,13 @@ class Plateau:
         
         self.grid[oldPos], self.grid[newPos] = self.grid[newPos], self.grid[oldPos]
         return
+
+    
+    def getCase(self, casePos: int) -> int:
+        """Recupere le type de pion sur la case demande
+
+        Précondition: casePos est un entier
+
+        Postcondition: Renvoie un entier
+        """
+        return self.grid[casePos]
