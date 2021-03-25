@@ -1,14 +1,21 @@
 import board
 
 def lookForCheck(grid: board.Plateau):
-    """Vérifiez tous les mouvements suivants pour voir
-    si le roi ennemi ou allié est en échec.
+    """on regarde si oui ou non un roi est echec
 
     Préconditions: grid est un Plateau
 
     Postconditions: Renvoie une booléaine
     """
-    pass
+    tab=[]
+    for i in range(64):
+        case=case.append(i)
+        if grid.isEmpty(n):
+            moves = getMoves(grid, i)
+            for move in moves:
+                if grid.getCase(move):
+                    return True
+    return False
 
 def getMoves(grid: board.Plateau, pieceId: int):
     """Renvoie toutes les possibilités de mouvement
