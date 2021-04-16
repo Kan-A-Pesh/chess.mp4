@@ -1,21 +1,25 @@
 import board
 
-def lookForCheck(grid: board.Plateau):
-    """on regarde si oui ou non un roi est echec
+def lookForCheck(grid: board.Plateau, isWhite: bool):
+    """on regarde si oui ou non si le roi des menacé par
+    le joueur demandé et renvoie la pion menaçant.
 
     Préconditions: grid est un Plateau
 
-    Postconditions: Renvoie une booléaine
+    Postconditions: Renvoie une ID
     """
-    tab=[]
     for i in range(64):
-        case=case.append(i)
-        if grid.isEmpty(n):
-            moves = getMoves(grid, i)
-            for move in moves:
-                if grid.getCase(move):
-                    return True
-    return False
+        if not grid.isEmpty(i):
+            pieceWhite = grid.getCase(i) > 0
+            if pieceWhite == isWhite:
+                for move in getMoves(grid, i):
+                    
+                    k = 5
+                    if isWhite: k = -5
+
+                    if grid.getCase(move) == k:
+                        return i
+    return -1
 
 def getMoves(grid: board.Plateau, pieceId: int):
     """Renvoie toutes les possibilités de mouvement
@@ -170,11 +174,6 @@ def getMoves(grid: board.Plateau, pieceId: int):
         if (grid.isAvailable(pieceId-8, isAlly)):
             possibilities.append(pieceId-8)
 
-        if (grid.isAvailable(pieceId-1, isAlly)):
-            possibilities.append(pieceId-1)
-        if (grid.isAvailable(pieceId+1, isAlly)):
-            possibilities.append(pieceId+1)
-
         x = (pieceId%8)
 
         if (x < 7):
@@ -182,11 +181,40 @@ def getMoves(grid: board.Plateau, pieceId: int):
                 possibilities.append(pieceId+9)
             if (grid.isAvailable(pieceId-7, isAlly)):
                 possibilities.append(pieceId-7)
+            if (grid.isAvailable(pieceId+1, isAlly)):
+                possibilities.append(pieceId+1)
 
         if (x > 0):
             if (grid.isAvailable(pieceId-9, isAlly)):
                 possibilities.append(pieceId-9)
             if (grid.isAvailable(pieceId+7, isAlly)):
                 possibilities.append(pieceId+7)
+            if (grid.isAvailable(pieceId-1, isAlly)):
+                possibilities.append(pieceId-1)
+
+
+    # Roque - Blanc Gauche Tour
+    if (pieceId == 0 and not grid.tlRookMoved and not grid.tKingMoved and isAlly):
+        if (grid.isEmpty(1) and grid.isEmpty(2)):
+            possibilities.append(3)
+            print("Roque - Blanc Gauche Tour")
+            
+    # Roque - Blanc Droite Tour
+    if (pieceId == 7 and not grid.trRookMoved and not grid.tKingMoved and isAlly):
+        if (grid.isEmpty(4) and grid.isEmpty(5) and grid.isEmpty(6)):
+            possibilities.append(3)
+            print("Roque - Blanc Droite Tour")
+
+    # Roque - Noir Gauche Tour
+    if (pieceId == 56 and not grid.blRookMoved and not grid.bKingMoved and not isAlly):
+        if (grid.isEmpty(57) and grid.isEmpty(58) and grid.isEmpty(59)):
+            possibilities.append(60)
+            print("Roque - Noir Gauche Tour")
+            
+    # Roque - Noir Droite Tour
+    if (pieceId == 63 and not grid.brRookMoved and not grid.bKingMoved and not isAlly):
+        if (grid.isEmpty(61) and grid.isEmpty(62)):
+            possibilities.append(60)
+            print("Roque - Noir Droite Tour")
 
     return possibilities
